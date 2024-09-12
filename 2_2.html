@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>会员注册</title>
+  </head>
+  <body>
+    <div align="center">
+      <h1>欢迎注册会员</h1>
+    </div>
+    <form align="center" >
+      手机号码：
+      <input type="text" name="phoneNumber" placeholder="11位手机号"><span style="color:red;">必填</span><br />
+      创建密码：
+      <input type="text" name="passwprd" placeholder="8位密码"><span style="color:red;">必填</span><br />
+      注册邮箱：
+      <input type="text" name="mail" placeholder="例如wustzz@sina.com"><span style="color:red;">必填</span><br />
+      验证码
+      <input type="text" name="verificationCode">
+      <div id="captchaDiv">
+        <span id="captcha"></span>
+      </div>
+      <button type="button" onclick="generateCaptcha()">刷新验证码</button><br/>
+      <input type="radio" name="sex" value="male" checked="checked">男
+      <input type="radio" name="sex" value="female">女<br />
+      生日：
+      <input type="date" name="mydate"><br />
+      年龄：
+      <input type="text" name="age"><br />
+      个人学历:
+      <select name="background">
+        <option value="0">初中</option>
+        <option value="1">高中</option>
+        <option value="2" select="selected">本科</option>
+        <option value="3">研究生</option>
+        <option value="4">博士</option>
+      </select><br/>
+      月薪：
+      <input type="range" id="salary" name="salary" min="0" max="10000" step="50" value="5000" >
+      <span id="msg"></span><br/>
+      个人爱好：
+      <label> <input type="checkbox" name="like" value="sing"> 唱</label>
+      <label> <input type="checkbox" name="like" value="dance"> 跳</label>
+      <label> <input type="checkbox" name="like" value="rap"> rap</label>
+      <label> <input type="checkbox" name="like" value="basketball"> 篮球</label><br/>
+      <label>个人照片:</label>
+      <input type="file" onchange="previewImage(event)">
+      <p>未选择任何文件</p>
+      <img id="preview" style="max-width:200px;display:none;margin:0 auto;">
+      <label>个人简介:</label>
+      <textarea id="intro"></textarea>
+      <button onclick="submitForm()">提交</button>
+      <button onclick="resetForm()">重填</button>
+    </form>
+  </body>
+  <script>
+    function generateCaptcha() {
+        var characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        var captcha = '';
+        for (var i = 0; i < 6; i++) {
+            var randomIndex = Math.floor(Math.random() * characters.length);
+            captcha += characters.charAt(randomIndex);
+        }
+        document.getElementById('captcha').innerHTML = captcha;
+    }
+
+    function refreshCaptcha() {
+        generateCaptcha();
+    }
+
+    // 页面加载时生成初始验证码
+    // window.onload = generateCaptcha;
+
+</script>
+  <script>
+    var msg = document.getElementById("msg");     // 根据id值找到span元素
+    window.onload = function () { 
+    msg.innerHTML = document.getElementById("salary").value; // 获取区间域初始value值
+    }
+    
+    document.getElementById("salary").onchange = function () { 
+    msg.innerHTML = this.value; // 将当前区间域的value作为span元素的内容
+    
+    }
+    
+    </script>
+    <script>
+      function previewImage(event) {
+      var reader = new FileReader();
+      reader.onload = function () {
+        var output = document.getElementById('preview');
+        output.src = reader.result;
+        output.style.display = 'block';
+      }
+      reader.readAsDataURL(event.target.files[0]);
+      document.querySelector('p').style.display = 'none';
+    }
+      </script>
+      <script>
+        function submitForm() {
+          alert('提交：' + document.getElementById('intro').value);
+        }
+    
+        function resetForm() {
+          document.getElementById('intro').value = '';
+        }
+      </script>
+</html>
